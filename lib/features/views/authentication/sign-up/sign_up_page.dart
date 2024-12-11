@@ -139,7 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     if (isSignUp)
-                      // Username Field - Only visible in Sign Up mode
+                      
                       Container(
                         width: double.infinity,
                         height: size.height * 0.08,
