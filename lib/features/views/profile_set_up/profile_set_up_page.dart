@@ -65,14 +65,14 @@ class _ProfileSetUpPageState extends State<ProfileSetUpPage> {
                       Stack(
                         children: [
                           CircleAvatar(
+                            radius: 45,
+                            backgroundColor: Colors.grey[700],
                             child: Center(
                               child: Icon(
                                 Icons.camera_alt,
                                 color: Colors.grey[300],
                               ),
                             ),
-                            radius: 45,
-                            backgroundColor: Colors.grey[700],
                           ),
                           Positioned(
                             top: size.height * 0.065,
