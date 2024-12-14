@@ -1,115 +1,115 @@
-import 'dart:async';
+// import 'dart:async';
 
-import 'package:connectify/common/utils.dart';
-import 'package:connectify/features/views/home/home_view.dart';
-import 'package:connectify/pallete/pallete.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
+// import 'package:connectify/common/utils.dart';
+// import 'package:connectify/features/views/home/home_view.dart';
+// import 'package:connectify/pallete/pallete.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
+// import 'package:lottie/lottie.dart';
 
-class NoInternetPage extends StatefulWidget {
-  const NoInternetPage({super.key});
+// class NoInternetPage extends StatefulWidget {
+//   const NoInternetPage({super.key});
 
-  @override
-  State<NoInternetPage> createState() => _NoInternetPageState();
-}
+//   @override
+//   State<NoInternetPage> createState() => _NoInternetPageState();
+// }
 
-class _NoInternetPageState extends State<NoInternetPage> {
-  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+// class _NoInternetPageState extends State<NoInternetPage> {
+//   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
+//   final Connectivity _connectivity = Connectivity();
+//   late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
-  bool _isInternet = true;
+//   bool _isInternet = true;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
 
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-  }
+//     initConnectivity();
+//     _connectivitySubscription =
+//         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+//   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
+//   @override
+//   void dispose() {
+//     // TODO: implement dispose
 
-    _connectivitySubscription.cancel();
+//     _connectivitySubscription.cancel();
 
-    super.dispose();
-  }
+//     super.dispose();
+//   }
 
-  Future<void> initConnectivity() async {
-    late List<ConnectivityResult> result;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print('Couldn\'t check connectivity status $e');
-      return;
-    }
+//   Future<void> initConnectivity() async {
+//     late List<ConnectivityResult> result;
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
+//     try {
+//       result = await _connectivity.checkConnectivity();
+//     } on PlatformException catch (e) {
+//       print('Couldn\'t check connectivity status $e');
+//       return;
+//     }
 
-    return _updateConnectionStatus(result);
-  }
+//     if (!mounted) {
+//       return Future.value(null);
+//     }
 
-  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
-    setState(() {
-      _connectionStatus = result;
-    });
-    // ignore: avoid_print
-    print('Connectivity changed: $_connectionStatus');
+//     return _updateConnectionStatus(result);
+//   }
 
-    if (_connectionStatus.contains(ConnectivityResult.none)) {
-      setState(() {
-        _isInternet = false;
-      });
-    } else {
-      setState(() {
-        _isInternet = true;
-      });
-    }
-  }
+//   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+//     setState(() {
+//       _connectionStatus = result;
+//     });
+//     // ignore: avoid_print
+//     print('Connectivity changed: $_connectionStatus');
 
-  @override
-  Widget build(BuildContext context) {
-    final bgColor = Pallete().bgColor;
+//     if (_connectionStatus.contains(ConnectivityResult.none)) {
+//       setState(() {
+//         _isInternet = false;
+//       });
+//     } else {
+//       setState(() {
+//         _isInternet = true;
+//       });
+//     }
+//   }
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              !_isInternet
-                  ? Center(
-                      child: Container(
-                        child: Lottie.asset(
-                          "assets/lottie/no_internet.json",
-                          width: 300,
-                          height: 300,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )
-                  : Center(
-                      child: Text("Internet"),
-                    ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final bgColor = Pallete().bgColor;
+
+//     return Scaffold(
+//       backgroundColor: bgColor,
+//       body: SingleChildScrollView(
+//         child: SafeArea(
+//           child: Column(
+//             children: [
+//               const SizedBox(
+//                 height: 30,
+//               ),
+//               !_isInternet
+//                   ? Center(
+//                       child: Container(
+//                         child: Lottie.asset(
+//                           "assets/lottie/no_internet.json",
+//                           width: 300,
+//                           height: 300,
+//                           fit: BoxFit.cover,
+//                         ),
+//                       ),
+//                     )
+//                   : Center(
+//                       child: Text("Internet"),
+//                     ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+// I'm just going to use this as a reference for later 
