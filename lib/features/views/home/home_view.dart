@@ -46,15 +46,15 @@ class _HomePageState extends State<HomePage> {
   Widget _getSelectedPage(int index) {
     switch (index) {
       case 0:
-        return HomePageContent();
+        return const HomePageContent();
       case 1:
-        return ThreadsView();
+        return const ThreadsView();
       case 2:
-        return ChatsView();
+        return const ChatsView();
       case 3:
-        return ProfileView();
+        return const ProfileView();
       default:
-        return HomePageContent();
+        return const HomePageContent();
     }
   }
 }
