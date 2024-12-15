@@ -1,3 +1,4 @@
+import 'package:connectify/features/views/home/home_view.dart';
 import 'package:connectify/features/views/profile_set_up/profile_set_up_page.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ProfileSetUpPage(),
+      home: const HomePage(),
     );
   }
 }
