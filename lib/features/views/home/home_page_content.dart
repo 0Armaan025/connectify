@@ -12,7 +12,7 @@ class HomePageContent extends StatefulWidget {
 
 class _HomePageContentState extends State<HomePageContent> {
   Future<List<Widget>> _fetchPosts() async {
-    List<Widget> posts = List.generate(30, (index) => const PostWidget());
+    List<Widget> posts = List.generate(5, (index) => const PostWidget());
 
     return posts;
   }
