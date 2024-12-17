@@ -1,7 +1,13 @@
+import 'package:connectify/common/comment_tile/comment_tile.dart';
+import 'package:connectify/common/enlarged_image/enlarged_image_view.dart';
+import 'package:connectify/common/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:like_button/like_button.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PostWidget extends StatefulWidget {
   const PostWidget({super.key});
@@ -12,6 +18,76 @@ class PostWidget extends StatefulWidget {
 
 class _PostWidgetState extends State<PostWidget> {
   bool _isFollowed = false;
+
+  _showComments(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    showModalBottomSheet(
+        isScrollControlled: true,
+        transitionAnimationController: AnimationController(
+          vsync: Navigator.of(context),
+          duration: const Duration(milliseconds: 300),
+        ),
+        context: context,
+        isDismissible: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
+          ),
+        ),
+        builder: (context) {
+          return Container(
+            height: size.height * 0.86,
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          CupertinoIcons.back,
+                          color: Colors.grey.shade700,
+                          size: 35,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "Comments",
+                        style: GoogleFonts.poppins(
+                            color: Colors.grey.shade800, fontSize: 22),
+                      ),
+                    ],
+                  ),
+                  CommentTile(),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _openEnlargedImage(BuildContext context) {
+    moveScreen(
+      context,
+      EnlargedImageView(
+          imageUrl:
+              'https://images.unsplash.com/photo-1498278854500-7c206daa073b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnRhaW58ZW58MHwxfDB8fHww'),
+    );
+  }
 
   void showCustomReasonDialog(BuildContext context) {
     final TextEditingController reasonController = TextEditingController();
@@ -288,91 +364,96 @@ class _PostWidgetState extends State<PostWidget> {
         margin: const EdgeInsets.symmetric(vertical: 15),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(
-                horizontal: 15,
-              ),
-              height: size.height * 0.57,
-              decoration: const BoxDecoration(
-                // color: Colors.black,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    'https://images.unsplash.com/photo-1498278854500-7c206daa073b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnRhaW58ZW58MHwxfDB8fHww',
-                  ),
-                  fit: BoxFit.fill,
+            GestureDetector(
+              onTap: () {
+                _openEnlargedImage(context);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 15,
                 ),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: size.width * 0.01,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/128/3177/3177440.png'),
-                        ),
-                        SizedBox(
-                          width: size.width * 0.04,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 2,
-                            ),
-                            Text(
-                              "Armaan",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            // follow button here
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _isFollowed = !_isFollowed;
-                                });
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 2),
-                                width: !_isFollowed
-                                    ? size.width * 0.18
-                                    : size.width * 0.28,
-                                height: size.height * 0.03,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: _isFollowed
-                                      ? HexColor("#87CEEB")
-                                      : HexColor("#e1e2e3"),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: !_isFollowed
-                                    ? Text(
-                                        "Follow",
-                                        style: GoogleFonts.poppins(),
-                                      )
-                                    : Text("Followed ✔️",
-                                        style: GoogleFonts.poppins()),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                height: size.height * 0.57,
+                decoration: const BoxDecoration(
+                  // color: Colors.black,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      'https://images.unsplash.com/photo-1498278854500-7c206daa073b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnRhaW58ZW58MHwxfDB8fHww',
                     ),
+                    fit: BoxFit.fill,
                   ),
-                ],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: size.width * 0.01,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(
+                                'https://cdn-icons-png.flaticon.com/128/3177/3177440.png'),
+                          ),
+                          SizedBox(
+                            width: size.width * 0.04,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                "Armaan",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // follow button here
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _isFollowed = !_isFollowed;
+                                  });
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 2),
+                                  width: !_isFollowed
+                                      ? size.width * 0.18
+                                      : size.width * 0.28,
+                                  height: size.height * 0.03,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: _isFollowed
+                                        ? HexColor("#87CEEB")
+                                        : HexColor("#e1e2e3"),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: !_isFollowed
+                                      ? Text(
+                                          "Follow",
+                                          style: GoogleFonts.poppins(),
+                                        )
+                                      : Text("Followed ✔️",
+                                          style: GoogleFonts.poppins()),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
@@ -396,15 +477,45 @@ class _PostWidgetState extends State<PostWidget> {
                         padding: const EdgeInsets.only(left: 8.0, top: 7),
                         child: Column(
                           children: [
-                            Icon(
-                              CupertinoIcons.heart,
-                              color: Colors.red,
-                            ),
-                            Text(
-                              "14K",
-                              style: GoogleFonts.poppins(
-                                color: Colors.red.shade700,
+                            LikeButton(
+                              size: 30,
+                              circleColor: CircleColor(
+                                  start: Color(0xff00ddff),
+                                  end: Color(0xff0099cc)),
+                              bubblesColor: BubblesColor(
+                                dotPrimaryColor: Color(0xff33b5e5),
+                                dotSecondaryColor: Color(0xff0099cc),
                               ),
+                              likeBuilder: (bool isLiked) {
+                                return Icon(
+                                  Icons.favorite,
+                                  color: isLiked
+                                      ? Colors.red.shade800
+                                      : Colors.grey,
+                                  size: 30,
+                                );
+                              },
+                              likeCount: 665,
+                              countBuilder:
+                                  (int? count, bool isLiked, String text) {
+                                var color = isLiked
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.grey;
+                                Widget? result;
+                                if (count == 0) {
+                                  result = Text(
+                                    "love",
+                                    style: TextStyle(color: color),
+                                  );
+                                } else {
+                                  result = Text(
+                                    text,
+                                    style: TextStyle(color: color),
+                                  );
+                                }
+                                return result;
+                              },
+                              countPostion: CountPostion.bottom,
                             ),
                             const SizedBox(
                               height: 10,
@@ -414,22 +525,27 @@ class _PostWidgetState extends State<PostWidget> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, top: 7),
-                        child: Column(
-                          children: [
-                            const Icon(
-                              CupertinoIcons.chat_bubble_2,
-                              color: Colors.black,
-                            ),
-                            Text(
-                              "14K",
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
+                        child: GestureDetector(
+                          onTap: () {
+                            _showComments(context);
+                          },
+                          child: Column(
+                            children: [
+                              Icon(
+                                CupertinoIcons.chat_bubble_2,
+                                color: Colors.grey.shade700,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
+                              Text(
+                                "14K",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.grey.shade700,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -437,22 +553,28 @@ class _PostWidgetState extends State<PostWidget> {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 10.0, top: 7, right: 12),
-                    child: Column(
-                      children: [
-                        const Icon(
-                          CupertinoIcons.share,
-                          color: Colors.black,
-                        ),
-                        Text(
-                          "14K",
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
+                    child: GestureDetector(
+                      onTap: () {
+                        Share.share('check out my website https://example.com',
+                            subject: 'Look what I made!');
+                      },
+                      child: Column(
+                        children: [
+                          Icon(
+                            CupertinoIcons.share,
+                            color: Colors.grey.shade700,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
+                          Text(
+                            "14K",
+                            style: GoogleFonts.poppins(
+                              color: Colors.grey.shade700,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:connectify/common/navbar/custom_navbar.dart';
 import 'package:connectify/common/utils.dart';
 import 'package:connectify/constants/constants.dart';
@@ -7,6 +9,7 @@ import 'package:connectify/features/views/profile/profile_view.dart';
 import 'package:connectify/features/views/threads/threads_view.dart';
 import 'package:connectify/pallete/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_links/uni_links.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,12 +19,48 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  StreamSubscription? _sub;
   int navBarIndex = 0;
 
   final bgColor = Pallete().bgColor;
 
   @override
+  void initState() {
+    super.initState();
+    _handleIncomingLinks();
+  }
+
+  Future<void> _handleIncomingLinks() async {
+    try {
+      final initialLink = await getInitialLink();
+      if (initialLink != null) {
+        _handleLink(initialLink);
+      }
+
+      _sub = linkStream.listen((String? link) {
+        if (link != null) {
+          _handleLink(link);
+        }
+      });
+    } catch (e) {
+      debugPrint('Error handling links: $e');
+    }
+  }
+
+  void _handleLink(String link) {
+    final uri = Uri.parse(link);
+
+    if (uri.pathSegments.contains('post')) {
+      final postId = uri.pathSegments.last;
+      Navigator.pushNamed(context, '/post', arguments: postId);
+    } else {
+      debugPrint('Unhandled link: $link');
+    }
+  }
+
+  @override
   void dispose() {
+    _sub?.cancel();
     super.dispose();
   }
 
