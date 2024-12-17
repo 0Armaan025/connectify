@@ -11,6 +11,8 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
+  bool _isFollowed = false;
+
   void showCustomReasonDialog(BuildContext context) {
     final TextEditingController reasonController = TextEditingController();
 
@@ -24,7 +26,7 @@ class _PostWidgetState extends State<PostWidget> {
           ),
           content: TextField(
             controller: reasonController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Enter your reason",
               border: OutlineInputBorder(),
             ),
@@ -43,7 +45,6 @@ class _PostWidgetState extends State<PostWidget> {
               onPressed: () {
                 final reason = reasonController.text.trim();
                 if (reason.isNotEmpty) {
-                  // Handle the reason submission here
                   print("Reported with reason: $reason");
                 }
                 Navigator.pop(context); // Dismiss dialog
@@ -118,7 +119,6 @@ class _PostWidgetState extends State<PostWidget> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    // Perform delete action here
                                     Navigator.pop(context); // Dismiss dialog
                                   },
                                   child: Text(
@@ -139,7 +139,7 @@ class _PostWidgetState extends State<PostWidget> {
                       color: Colors.grey,
                     ),
                     ListTile(
-                      leading: Icon(
+                      leading: const Icon(
                         CupertinoIcons.chart_bar,
                         color: Colors.purple,
                       ),
@@ -157,7 +157,7 @@ class _PostWidgetState extends State<PostWidget> {
                       color: Colors.grey,
                     ),
                     ListTile(
-                      leading: Icon(
+                      leading: const Icon(
                         CupertinoIcons.profile_circled,
                         color: Colors.purple,
                       ),
@@ -175,7 +175,7 @@ class _PostWidgetState extends State<PostWidget> {
                       color: Colors.grey,
                     ),
                     ListTile(
-                      leading: Icon(
+                      leading: const Icon(
                         CupertinoIcons.minus_circle,
                         color: Colors.purple,
                       ),
@@ -193,7 +193,7 @@ class _PostWidgetState extends State<PostWidget> {
                       color: Colors.grey,
                     ),
                     ListTile(
-                      leading: Icon(
+                      leading: const Icon(
                         CupertinoIcons.flag,
                         color: Colors.purple,
                       ),
@@ -316,7 +316,7 @@ class _PostWidgetState extends State<PostWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 30,
                           backgroundImage: NetworkImage(
                               'https://cdn-icons-png.flaticon.com/128/3177/3177440.png'),
@@ -340,17 +340,31 @@ class _PostWidgetState extends State<PostWidget> {
                             ),
                             // follow button here
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  _isFollowed = !_isFollowed;
+                                });
+                              },
                               child: Container(
                                 margin: const EdgeInsets.only(top: 2),
-                                width: size.width * 0.22,
+                                width: !_isFollowed
+                                    ? size.width * 0.18
+                                    : size.width * 0.28,
                                 height: size.height * 0.03,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: HexColor("#87CEEB"),
+                                  color: _isFollowed
+                                      ? HexColor("#87CEEB")
+                                      : HexColor("#e1e2e3"),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-                                child: Text("Follow"),
+                                child: !_isFollowed
+                                    ? Text(
+                                        "Follow",
+                                        style: GoogleFonts.poppins(),
+                                      )
+                                    : Text("Followed ✔️",
+                                        style: GoogleFonts.poppins()),
                               ),
                             ),
                           ],
@@ -363,19 +377,84 @@ class _PostWidgetState extends State<PostWidget> {
             ),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(8).copyWith(bottom: 12, top: 12),
+              // padding: const EdgeInsets.all(8).copyWith(bottom: 12, top: 12),
               margin: const EdgeInsets.symmetric(horizontal: 15),
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(8),
                   bottomRight: Radius.circular(8),
                 ),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("hi"),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, top: 7),
+                        child: Column(
+                          children: [
+                            Icon(
+                              CupertinoIcons.heart,
+                              color: Colors.red,
+                            ),
+                            Text(
+                              "14K",
+                              style: GoogleFonts.poppins(
+                                color: Colors.red.shade700,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, top: 7),
+                        child: Column(
+                          children: [
+                            const Icon(
+                              CupertinoIcons.chat_bubble_2,
+                              color: Colors.black,
+                            ),
+                            Text(
+                              "14K",
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10.0, top: 7, right: 12),
+                    child: Column(
+                      children: [
+                        const Icon(
+                          CupertinoIcons.share,
+                          color: Colors.black,
+                        ),
+                        Text(
+                          "14K",
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
