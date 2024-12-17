@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:connectify/features/views/home/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:uni_links/uni_links.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
