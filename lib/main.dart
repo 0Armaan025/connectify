@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       initialRoute: '/',
       routes: {
-        '/': (context) => const ThreadView(),
+        '/': (context) => const HomePage(),
         '/post': (context) => const PostPage(),
       },
     );
