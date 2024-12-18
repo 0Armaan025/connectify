@@ -27,7 +27,7 @@ class _ForumPostState extends State<ForumPost> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    
     return GestureDetector(
       onLongPress: () {
         // show delete , report and show profile options in a modal container / dialog anything you feel is fine
