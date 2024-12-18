@@ -160,6 +160,9 @@ class _ProfileSetUpPageState extends State<ProfileSetUpPage> {
                               CircleAvatar(
                                 radius: 45,
                                 backgroundColor: Colors.grey[700],
+                                backgroundImage: _imageFile != null
+                                    ? FileImage(_imageFile!)
+                                    : null,
                                 child: _imageFile != null
                                     ? null
                                     : Center(
@@ -168,9 +171,6 @@ class _ProfileSetUpPageState extends State<ProfileSetUpPage> {
                                           color: Colors.grey[300],
                                         ),
                                       ),
-                                backgroundImage: _imageFile != null
-                                    ? FileImage(_imageFile!)
-                                    : null,
                               ),
                               Positioned(
                                 top: size.height * 0.065,

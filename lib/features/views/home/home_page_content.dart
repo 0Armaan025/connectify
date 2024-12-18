@@ -1,10 +1,8 @@
-import 'package:connectify/common/navbar/custom_navbar.dart';
 import 'package:connectify/common/post_widget/post_widget.dart';
-import 'package:connectify/common/utils.dart';
 import 'package:flutter/material.dart';
 
 class HomePageContent extends StatefulWidget {
-  const HomePageContent({Key? key}) : super(key: key);
+  const HomePageContent({super.key});
 
   @override
   State<HomePageContent> createState() => _HomePageContentState();

@@ -3,7 +3,6 @@ import 'package:connectify/common/enlarged_image/enlarged_image_view.dart';
 import 'package:connectify/common/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:like_button/like_button.dart';
@@ -19,71 +18,131 @@ class PostWidget extends StatefulWidget {
 class _PostWidgetState extends State<PostWidget> {
   bool _isFollowed = false;
 
-  _showComments(BuildContext context) {
+  _showMessageField(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    showModalBottomSheet(
-        isScrollControlled: true,
-        transitionAnimationController: AnimationController(
-          vsync: Navigator.of(context),
-          duration: const Duration(milliseconds: 300),
+
+    return Column(
+      children: [
+        SizedBox(
+          height: size.height * 0.36,
         ),
-        context: context,
-        isDismissible: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-          ),
-        ),
-        builder: (context) {
-          return Container(
-            height: size.height * 0.86,
-            width: double.infinity,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
+        Row(
+          children: [
+            const SizedBox(width: 8),
+
+            // Expanded TextFormField
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: "Add a comment...",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(10),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          CupertinoIcons.back,
-                          color: Colors.grey.shade700,
-                          size: 35,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "Comments",
-                        style: GoogleFonts.poppins(
-                            color: Colors.grey.shade800, fontSize: 22),
-                      ),
-                    ],
-                  ),
-                  CommentTile(),
-                ],
+                  maxLines: 1,
+                  minLines: 1,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.send,
+                  onFieldSubmitted: (value) {
+                    print("Comment submitted: $value");
+                  },
+                ),
               ),
             ),
-          );
-        });
+            const SizedBox(width: 8),
+            // CircleAvatar with send icon
+            CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.green,
+              child: IconButton(
+                icon: const Icon(Icons.send, color: Colors.white),
+                onPressed: () {
+                  print("Send button clicked");
+                },
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
+        )
+      ],
+    );
   }
+
+  _showComments(BuildContext context) {
+  final size = MediaQuery.of(context).size;
+  showModalBottomSheet(
+    isScrollControlled: true,
+    transitionAnimationController: AnimationController(
+      vsync: Navigator.of(context),
+      duration: const Duration(milliseconds: 300),
+    ),
+    context: context,
+    isDismissible: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(8),
+        topRight: Radius.circular(8),
+      ),
+    ),
+    builder: (context) {
+      return SizedBox(
+        height: size.height * 0.86,
+        width: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        CupertinoIcons.back,
+                        color: Colors.grey.shade700,
+                        size: 35,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      "Comments",
+                      style: GoogleFonts.poppins(
+                        color: Colors.grey.shade800,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ],
+                ),
+                const CommentTile(),
+                const SizedBox(height: 10),
+                _showMessageField(context),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
 
   _openEnlargedImage(BuildContext context) {
     moveScreen(
       context,
-      EnlargedImageView(
+      const EnlargedImageView(
           imageUrl:
               'https://images.unsplash.com/photo-1498278854500-7c206daa073b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnRhaW58ZW58MHwxfDB8fHww'),
     );
@@ -479,10 +538,10 @@ class _PostWidgetState extends State<PostWidget> {
                           children: [
                             LikeButton(
                               size: 30,
-                              circleColor: CircleColor(
+                              circleColor: const CircleColor(
                                   start: Color(0xff00ddff),
                                   end: Color(0xff0099cc)),
-                              bubblesColor: BubblesColor(
+                              bubblesColor: const BubblesColor(
                                 dotPrimaryColor: Color(0xff33b5e5),
                                 dotSecondaryColor: Color(0xff0099cc),
                               ),

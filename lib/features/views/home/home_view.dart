@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:connectify/common/navbar/custom_navbar.dart';
 import 'package:connectify/common/utils.dart';
-import 'package:connectify/constants/constants.dart';
 import 'package:connectify/features/views/chats/chats_view.dart';
 import 'package:connectify/features/views/home/home_page_content.dart';
 import 'package:connectify/features/views/profile/profile_view.dart';

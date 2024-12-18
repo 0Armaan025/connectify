@@ -1,15 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:connectify/constants/constants.dart';
 import 'package:connectify/features/views/post_upload/post_upload_view.dart';
-import 'package:connectify/pallete/pallete.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -100,7 +97,7 @@ buildAppBar(BuildContext context) {
         padding: const EdgeInsets.only(right: 3),
         child: IconButton(
           onPressed: () {
-            moveScreen(context, PostUploadView());
+            moveScreen(context, const PostUploadView());
           },
           icon: const Icon(CupertinoIcons.add_circled),
         ),

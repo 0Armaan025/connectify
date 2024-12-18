@@ -7,10 +7,10 @@ class BuildNavBar extends StatelessWidget {
   final Function(int) onTabChange;
 
   const BuildNavBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.onTabChange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

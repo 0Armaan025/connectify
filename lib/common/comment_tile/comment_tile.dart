@@ -72,7 +72,7 @@ class _CommentTileState extends State<CommentTile> {
             },
           ),
           TextButton(
-            // Add a cancel button
+            
             onPressed: () {
               Navigator.pop(context);
             },
@@ -106,7 +106,7 @@ class _CommentTileState extends State<CommentTile> {
     _isLongText = words.length > maxWordsLength;
 
     displayedText = _isLongText
-        ? words.take(maxWordsLength).join(' ') + '...'
+        ? '${words.take(maxWordsLength).join(' ')}...'
         : commentText;
   }
 
@@ -128,17 +128,17 @@ class _CommentTileState extends State<CommentTile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+                const Row(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(
                           'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           'John Doe',
                           style: TextStyle(
@@ -213,7 +213,7 @@ class _CommentTileState extends State<CommentTile> {
                 },
                 child: Text(
                   _isExpanded ? 'Read Less' : 'Read More',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 15,
                       color: Colors.blue), // Make it blue for better visibility
                 ),

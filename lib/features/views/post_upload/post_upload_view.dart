@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -129,6 +128,7 @@ class PostUploadViewState extends State<PostUploadView> {
                 onTap: () async {
                   Navigator.pop(context);
                   // Handle Forum option here
+                  // we will handle the forum post later on
                 },
               ),
             ],
@@ -159,6 +159,7 @@ class PostUploadViewState extends State<PostUploadView> {
     );
   }
 
+  @override
   dispose() {
     super.dispose();
   }
@@ -177,7 +178,7 @@ class PostUploadViewState extends State<PostUploadView> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: size.height * 0.75,
                 child: Center(
                   child: IconButton(
