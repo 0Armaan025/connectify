@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:connectify/common/utils.dart';
+import 'package:connectify/features/views/add_forum_post/add_forum_post_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -126,9 +128,7 @@ class PostUploadViewState extends State<PostUploadView> {
                 leading: const Icon(Icons.forum, color: Colors.blue),
                 title: const Text('Forum'),
                 onTap: () async {
-                  Navigator.pop(context);
-                  // Handle Forum option here
-                  // we will handle the forum post later on
+                  moveScreen(context, AddForumPostView());
                 },
               ),
             ],
