@@ -1,4 +1,4 @@
-import 'package:connectify/common/utils.dart';
+import 'package:connectify/common/utils/utils.dart';
 import 'package:connectify/features/views/thread/thread_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

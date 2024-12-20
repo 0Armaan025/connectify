@@ -1,5 +1,5 @@
 import 'package:connectify/common/attatchment_tile/attatchment_tile.dart';
-import 'package:connectify/common/utils.dart';
+import 'package:connectify/common/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

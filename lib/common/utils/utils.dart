@@ -123,3 +123,80 @@ buildAppBar(BuildContext context) {
     ),
   );
 }
+
+buildChatAppBar(BuildContext context, String username, String status,
+    VoidCallback threeDotPressed) {
+  return AppBar(
+    backgroundColor: HexColor("#e0e0de"),
+    actions: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(right: 3),
+        child: IconButton(
+          onPressed: () {},
+          icon: const Icon(CupertinoIcons.video_camera),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(right: 3),
+        child: IconButton(
+          onPressed: () {},
+          icon: const Icon(CupertinoIcons.phone),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(right: 3),
+        child: IconButton(
+          icon: const Icon(CupertinoIcons.ellipsis_vertical),
+          onPressed: threeDotPressed,
+        ),
+      ),
+    ],
+    title: Row(
+      children: [
+        Stack(
+          clipBehavior: Clip.none, // To allow the green dot to overflow
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage(
+                  'https://imgs.search.brave.com/2Yc0aaN4QdY-5vJhCd2mh6WLIm_qkuVmRWKWOkxn43o/rs:fit:32:32:1:0/g:ce/aHR0cDovL2Zhdmlj/b25zLnNlYXJjaC5i/cmF2ZS5jb20vaWNv/bnMvNmRlZGE0MGIz/YjQ3NzBjNzZlNzll/OTk5MmM4YWViYmRm/MWU2ZGYxZDAwNGZh/N2EyOGNjYTc3NjFl/MDMzZDc1MS93d3cu/a3Vtb3NwYWNlLmNv/bS8'),
+            ),
+            if (status.toLowerCase() == "online")
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              username,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              status,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}

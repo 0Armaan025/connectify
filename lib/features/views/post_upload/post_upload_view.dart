@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:connectify/common/utils.dart';
+import 'package:connectify/common/utils/utils.dart';
 import 'package:connectify/features/views/add_forum_post/add_forum_post_view.dart';
 import 'package:connectify/features/views/text_post/text_post_view.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:connectify/common/buttons/custom_button.dart';
-import 'package:connectify/common/utils.dart';
+import 'package:connectify/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class TextPostScreen extends StatelessWidget {

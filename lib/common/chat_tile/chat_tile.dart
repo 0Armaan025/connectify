@@ -1,8 +1,16 @@
+import 'package:connectify/common/utils/utils.dart';
+import 'package:connectify/features/views/chat/chat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChatTile extends StatefulWidget {
-  const ChatTile({super.key});
+  final String username;
+  final String status; // Add status as a parameter
+  const ChatTile({
+    super.key,
+    required this.username,
+    required this.status,
+  });
 
   @override
   State<ChatTile> createState() => _ChatTileState();
@@ -13,20 +21,37 @@ class _ChatTileState extends State<ChatTile> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigate to chat screen
+        moveScreen(context, ChatView());
       },
       child: Container(
-        // margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         child: Column(
           children: [
             Row(
               children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: Colors.grey.shade200,
-                  backgroundImage: const NetworkImage(
-                      'https://imgs.search.brave.com/2Yc0aaN4QdY-5vJhCd2mh6WLIm_qkuVmRWKWOkxn43o/rs:fit:32:32:1:0/g:ce/aHR0cDovL2Zhdmlj/b25zLnNlYXJjaC5i/cmF2ZS5jb20vaWNv/bnMvNmRlZGE0MGIz/YjQ3NzBjNzZlNzll/OTk5MmM4YWViYmRm/MWU2ZGYxZDAwNGZh/N2EyOGNjYTc3NjFl/MDMzZDc1MS93d3cu/a3Vtb3NwYWNlLmNv/bS8'),
+                Stack(
+                  clipBehavior: Clip.none, // To allow the green dot to overflow
+                  children: [
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: const NetworkImage(
+                          'https://imgs.search.brave.com/2Yc0aaN4QdY-5vJhCd2mh6WLIm_qkuVmRWKWOkxn43o/rs:fit:32:32:1:0/g:ce/aHR0cDovL2Zhdmlj/b25zLnNlYXJjaC5i/cmF2ZS5jb20vaWNv/bnMvNmRlZGE0MGIz/YjQ3NzBjNzZlNzll/OTk5MmM4YWViYmRm/MWU2ZGYxZDAwNGZh/N2EyOGNjYTc3NjFl/MDMzZDc1MS93d3cu/a3Vtb3NwYWNlLmNv/bS8'),
+                    ),
+                    if (widget.status.toLowerCase() == "online")
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 const SizedBox(width: 8),
 
@@ -40,7 +65,7 @@ class _ChatTileState extends State<ChatTile> {
                         children: [
                           // Name
                           Text(
-                            "Armaan",
+                            widget.username, // Use the passed username
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -52,7 +77,7 @@ class _ChatTileState extends State<ChatTile> {
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Text(
-                              "12:00 PM",
+                              "12:00 PM", // Time can also be passed or dynamically fetched
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 color: Colors.grey.shade600,
@@ -70,7 +95,7 @@ class _ChatTileState extends State<ChatTile> {
                             // Message Preview
                             Expanded(
                               child: Text(
-                                "Random text.....",
+                                "Random text.....", // Message preview can also be passed or dynamically fetched
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
@@ -81,7 +106,7 @@ class _ChatTileState extends State<ChatTile> {
 
                             // Status
                             Text(
-                              "Seen",
+                              "Seen", // Status can also be dynamic (e.g., "Seen" or "Delivered")
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 color: Colors.blueGrey.shade400,
@@ -90,17 +115,13 @@ class _ChatTileState extends State<ChatTile> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      const SizedBox(width: 10),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             Container(
               width: double.infinity,
               height: 1,

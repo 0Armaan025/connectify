@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:animate_do/animate_do.dart'; // Import animate_do package
 import 'package:connectify/common/buttons/custom_button.dart';
-import 'package:connectify/common/utils.dart';
+import 'package:connectify/common/utils/utils.dart';
 import 'package:connectify/pallete/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
