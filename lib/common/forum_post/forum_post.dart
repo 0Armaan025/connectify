@@ -90,9 +90,9 @@ class _ForumPostState extends State<ForumPost> {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 12,
-                      backgroundImage: const NetworkImage(
+                      backgroundImage: NetworkImage(
                         'https://images.unsplash.com/photo-1498278854500-7c206daa073b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnRhaW58ZW58MHwxfDB8fHww',
                       ),
                     ),
@@ -172,7 +172,7 @@ class _ForumPostState extends State<ForumPost> {
     List<String> words = text.split(' ');
 
     if (words.length > maxWords) {
-      return words.sublist(0, maxWords).join(' ') + '...';
+      return '${words.sublist(0, maxWords).join(' ')}...';
     }
     return text;
   }

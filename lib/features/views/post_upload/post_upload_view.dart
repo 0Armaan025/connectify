@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:connectify/common/utils.dart';
 import 'package:connectify/features/views/add_forum_post/add_forum_post_view.dart';
+import 'package:connectify/features/views/text_post/text_post_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -48,10 +49,10 @@ class PostUploadViewState extends State<PostUploadView> {
   Future<File?> compressImage(File image) async {
     final Uint8List? result = await FlutterImageCompress.compressWithFile(
       image.absolute.path,
-      minWidth: 800, // Minimum width (can be adjusted)
-      minHeight: 600, // Minimum height (can be adjusted)
-      quality: 80, // Image quality (can be adjusted)
-      rotate: 0, // Rotation (if needed)
+      minWidth: 800,
+      minHeight: 600,
+      quality: 80,
+      rotate: 0,
     );
 
     if (result != null) {
@@ -128,7 +129,15 @@ class PostUploadViewState extends State<PostUploadView> {
                 leading: const Icon(Icons.forum, color: Colors.blue),
                 title: const Text('Forum'),
                 onTap: () async {
-                  moveScreen(context, AddForumPostView());
+                  moveScreen(context, const AddForumPostView());
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.text_fields_sharp,
+                    color: Colors.lightGreen),
+                title: const Text('Normal text Post'),
+                onTap: () async {
+                  moveScreen(context, const TextPostScreen());
                 },
               ),
             ],
@@ -168,10 +177,7 @@ class PostUploadViewState extends State<PostUploadView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Upload Post'),
-        backgroundColor: Colors.deepPurple,
-      ),
+      appBar: buildAppBar(context),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(

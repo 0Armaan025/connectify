@@ -1,4 +1,5 @@
 import 'package:connectify/features/views/home/home_view.dart';
+
 import 'package:flutter/material.dart';
 
 void main() async {

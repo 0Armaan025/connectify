@@ -20,7 +20,7 @@ class _ThreadViewState extends State<ThreadView> {
   String _getTrimmedContent() {
     final contentWords = forumContent.split(" ");
     if (contentWords.length > 15 && !isExpanded) {
-      return contentWords.sublist(0, 15).join(" ") + "...";
+      return "${contentWords.sublist(0, 15).join(" ")}...";
     }
     return forumContent;
   }
@@ -130,7 +130,7 @@ class _ThreadViewState extends State<ThreadView> {
               ],
             ),
             const SizedBox(height: 5),
-            SingleChildScrollView(
+            const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -165,24 +165,24 @@ class _ThreadViewState extends State<ThreadView> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ListTile(
-                          leading: Icon(Icons.report),
-                          title: Text("Report Comment"),
+                          leading: const Icon(Icons.report),
+                          title: const Text("Report Comment"),
                           onTap: () {
                             // Add logic to report the comment
                             Navigator.pop(context);
                           },
                         ),
                         ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text("View Profile"),
+                          leading: const Icon(Icons.person),
+                          title: const Text("View Profile"),
                           onTap: () {
                             // Add logic to view the profile
                             Navigator.pop(context);
                           },
                         ),
                         ListTile(
-                          leading: Icon(Icons.delete),
-                          title: Text("Delete Comment"),
+                          leading: const Icon(Icons.delete),
+                          title: const Text("Delete Comment"),
                           onTap: () {
                             // Add logic to delete the comment
                             Navigator.pop(context);
@@ -263,7 +263,7 @@ class _ThreadViewState extends State<ThreadView> {
                 ),
                 const SizedBox(height: 8),
                 // Attachments Section
-                SingleChildScrollView(
+                const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
