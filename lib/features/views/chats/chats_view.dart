@@ -40,7 +40,7 @@ class _ChatsViewState extends State<ChatsView> {
               ),
               ChatTile(
                 username: 'Armaan',
-                status: 'offline',
+                status: 'online',
               ),
             ],
           ),
