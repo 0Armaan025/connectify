@@ -12,6 +12,7 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends State<ChatView> {
   final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
   final List<Map<String, String>> _messages = [];
   final List<String> _placeholders = [
@@ -34,17 +35,24 @@ class _ChatViewState extends State<ChatView> {
       {
         "type": "sender",
         "name": "Armaan",
-        "message": "Hi there Arnav, how are you?",
+        "message": "Hi there Arnav, how are you? https://connectify.com",
         "time": "22:03 PM IST",
       },
       {
         "type": "receiver",
         "name": "Arnav",
         "message":
-            "Hi there Armaan, I'm cool, wbu? Amet sunt laborum est ut. Incididunt exercitation commodo ad esse anim anim qui enim. Qui est voluptate ullamco non esse irure consectetur laboris non amet velit est veniam. Lorem dolor ad occaecat veniam eu sint.",
+            "Hi there Armaan, I'm cool, wbu? https://google.com Amet sunt laborum est ut. Incididunt exercitation commodo ad esse anim anim qui enim. Qui est voluptate ullamco non esse irure consectetur laboris non amet velit est veniam. Lorem dolor ad occaecat veniam eu sint.",
         "time": "22:03 PM IST",
       },
     ]);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _scrollController.dispose();
   }
 
   void _setRandomPlaceholder() {
@@ -125,7 +133,6 @@ class _ChatViewState extends State<ChatView> {
                 title: const Text("Image"),
                 onTap: () {
                   Navigator.pop(context);
-                  // Handle image selection
                 },
               ),
               ListTile(
@@ -133,7 +140,6 @@ class _ChatViewState extends State<ChatView> {
                 title: const Text("Video"),
                 onTap: () {
                   Navigator.pop(context);
-                  // Handle video selection
                 },
               ),
             ],
@@ -184,16 +190,12 @@ class _ChatViewState extends State<ChatView> {
         // Handle the selected option here
         switch (value) {
           case 'report':
-            // Handle report
             break;
           case 'block':
-            // Handle block
             break;
           case 'clear_chat':
-            // Handle clear chat
             break;
           case 'view_profile':
-            // Handle view profile
             break;
         }
       }
@@ -208,13 +210,12 @@ class _ChatViewState extends State<ChatView> {
       }),
       body: GestureDetector(
         onTap: () {
-          // Dismiss custom keyboard if it's visible
           if (_isCustomKeyboardVisible) {
             setState(() {
               _isCustomKeyboardVisible = false;
             });
           }
-          // Unfocus the TextField to hide the keyboard
+
           FocusScope.of(context).unfocus();
         },
         child: Column(
@@ -226,6 +227,7 @@ class _ChatViewState extends State<ChatView> {
                     children: _messages.map((message) {
                       if (message['type'] == 'sender') {
                         return SenderChatBubble(
+                          scrollController: _scrollController,
                           senderName: message['name']!,
                           // videoUrl:
                           //     'https://www.sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
@@ -235,8 +237,8 @@ class _ChatViewState extends State<ChatView> {
                         );
                       } else {
                         return ReceiverChatBubble(
-                          videoUrl:
-                              'https://www.sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
+                          // videoUrl:
+                          //     'https://www.sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
                           senderName: message['name']!,
                           message: message['message']!,
                           senderImage: '',
