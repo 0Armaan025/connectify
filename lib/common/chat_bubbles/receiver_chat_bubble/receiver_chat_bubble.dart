@@ -370,8 +370,8 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                   ],
                 ),
               )
-            : Container(
-                child: Text('hi'),
+            : Center(
+                child: CircularProgressIndicator(),
               ),
       ),
     );

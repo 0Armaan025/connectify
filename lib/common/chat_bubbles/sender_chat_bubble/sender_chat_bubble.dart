@@ -1,5 +1,8 @@
+import 'package:connectify/common/chat_bubbles/receiver_chat_bubble/receiver_chat_bubble.dart';
+import 'package:connectify/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:video_player/video_player.dart';
 
 class SenderChatBubble extends StatefulWidget {
   final String message;
@@ -7,6 +10,8 @@ class SenderChatBubble extends StatefulWidget {
   final String senderName;
   final String senderImage;
   final bool isSeen;
+  final String? imageUrl; // Optional field for image
+  final String? videoUrl; // Optional field for video
 
   const SenderChatBubble({
     super.key,
@@ -15,6 +20,8 @@ class SenderChatBubble extends StatefulWidget {
     required this.senderName,
     required this.senderImage,
     this.isSeen = false,
+    this.imageUrl,
+    this.videoUrl,
   });
 
   @override
@@ -23,6 +30,35 @@ class SenderChatBubble extends StatefulWidget {
 
 class _SenderChatBubbleState extends State<SenderChatBubble> {
   bool _isExpanded = false;
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.videoUrl != null) {
+      try {
+        _controller =
+            VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl!))
+              ..initialize().then((_) {
+                setState(() {});
+              }).catchError((error) {
+                showSnackBar(context, error.toString());
+              });
+      } catch (e) {
+        showSnackBar(context, e.toString());
+      }
+    }
+    _controller.play();
+  }
+
+  @override
+  void dispose() {
+    if (widget.videoUrl != null) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
 
   void _showContextMenuDialog() {
     showDialog(
@@ -45,9 +81,7 @@ class _SenderChatBubbleState extends State<SenderChatBubble> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               ListTile(
                 leading: const Icon(Icons.copy, size: 24),
                 title: const Text(
@@ -69,20 +103,17 @@ class _SenderChatBubbleState extends State<SenderChatBubble> {
                   style: TextStyle(fontSize: 16),
                 ),
                 onTap: () {
-                  Navigator.pop(context); // Close the dialog
+                  Navigator.pop(context);
                 },
               ),
               ListTile(
-                leading: Icon(
-                  Icons.info,
-                  size: 24,
-                ),
+                leading: const Icon(Icons.info, size: 24),
                 title: const Text(
                   'Details',
                   style: TextStyle(fontSize: 16),
                 ),
                 onTap: () {
-                  Navigator.pop(context); // Close the dialog
+                  Navigator.pop(context);
                 },
               ),
             ],
@@ -92,13 +123,30 @@ class _SenderChatBubbleState extends State<SenderChatBubble> {
     );
   }
 
+  void _navigateToEnlargedImage(String imageUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EnlargedImageView(imageUrl: imageUrl),
+      ),
+    );
+  }
+
+  void _playVideo(String videoUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPlayerView(
+          videoUrl: videoUrl,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    String displayMessage = _isExpanded
-        ? widget.message
-        : widget.message.length > 80
-            ? '${widget.message.substring(0, 80)}...'
-            : widget.message;
+    bool hasImage = widget.imageUrl != null;
+    bool hasVideo = widget.videoUrl != null;
 
     return Align(
       alignment: Alignment.centerRight,
@@ -135,21 +183,50 @@ class _SenderChatBubbleState extends State<SenderChatBubble> {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _isExpanded = !_isExpanded;
-                          });
-                        },
-                        child: Text(
-                          displayMessage,
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.black87,
+                      if (hasImage)
+                        GestureDetector(
+                          onTap: () =>
+                              _navigateToEnlargedImage(widget.imageUrl!),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              widget.imageUrl!,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      if (widget.message.length > 50 && !_isExpanded)
+                      if (hasVideo)
+                        GestureDetector(
+                          onTap: () => _playVideo(widget.videoUrl!),
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: _controller.value.isInitialized
+                                    ? AspectRatio(
+                                        aspectRatio:
+                                            _controller.value.aspectRatio,
+                                        child: VideoPlayer(_controller),
+                                      )
+                                    : Container(),
+                              ),
+                              Positioned(
+                                top: 0,
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Icon(
+                                  !_controller.value.isPlaying
+                                      ? Icons.play_circle_fill
+                                      : null,
+                                  color: Colors.white,
+                                  size: 50,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (!hasImage && !hasVideo) ...[
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -157,13 +234,33 @@ class _SenderChatBubbleState extends State<SenderChatBubble> {
                             });
                           },
                           child: Text(
-                            "Read More",
+                            _isExpanded
+                                ? widget.message
+                                : widget.message.length > 80
+                                    ? '${widget.message.substring(0, 80)}...'
+                                    : widget.message,
                             style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: Colors.blue,
+                              fontSize: 14,
+                              color: Colors.black87,
                             ),
                           ),
                         ),
+                        if (widget.message.length > 80 && !_isExpanded)
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isExpanded = !_isExpanded;
+                              });
+                            },
+                            child: Text(
+                              "Read More",
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                      ],
                       const SizedBox(height: 8),
                       Row(
                         mainAxisSize: MainAxisSize.min,
