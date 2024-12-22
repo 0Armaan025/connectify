@@ -52,6 +52,7 @@ dependencies:
   flutter_image_compress: ^2.3.0
   dotted_border: ^2.1.0
   video_player: ^2.9.2
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:

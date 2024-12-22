@@ -1,4 +1,8 @@
 import 'package:connectify/common/profile_post_tile/profile_post_tile.dart';
+import 'package:connectify/common/utils/utils.dart';
+import 'package:connectify/features/views/followers/followers_view.dart';
+import 'package:connectify/features/views/following/following_view.dart';
+import 'package:connectify/features/views/likes/likes_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -138,11 +142,16 @@ class _ProfileViewState extends State<ProfileView> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          "Following",
-                          style: GoogleFonts.poppins(
-                            color: Colors.blue,
-                            fontSize: 14,
+                        InkWell(
+                          onTap: () {
+                            moveScreen(context, FollowingListPage());
+                          },
+                          child: Text(
+                            "Following",
+                            style: GoogleFonts.poppins(
+                              color: Colors.blue,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ],
@@ -157,11 +166,16 @@ class _ProfileViewState extends State<ProfileView> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          "Followers",
-                          style: GoogleFonts.poppins(
-                            color: Colors.blue,
-                            fontSize: 14,
+                        InkWell(
+                          onTap: () {
+                            moveScreen(context, FollowersListPage());
+                          },
+                          child: Text(
+                            "Followers",
+                            style: GoogleFonts.poppins(
+                              color: Colors.blue,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ],
@@ -176,11 +190,16 @@ class _ProfileViewState extends State<ProfileView> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          "Likes",
-                          style: GoogleFonts.poppins(
-                            color: Colors.blue,
-                            fontSize: 14,
+                        InkWell(
+                          onTap: () {
+                            moveScreen(context, LikesView());
+                          },
+                          child: Text(
+                            "Likes",
+                            style: GoogleFonts.poppins(
+                              color: Colors.blue,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ],

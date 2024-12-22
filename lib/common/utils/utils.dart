@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:connectify/features/views/post_upload/post_upload_view.dart';
+import 'package:connectify/features/views/search_users/search_users_view.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +106,9 @@ buildAppBar(BuildContext context) {
       Padding(
         padding: const EdgeInsets.only(right: 3),
         child: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            moveScreen(context, SearchUsersView());
+          },
           icon: const Icon(CupertinoIcons.search),
         ),
       ),
