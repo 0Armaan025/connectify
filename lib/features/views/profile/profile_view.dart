@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  final bool haveNavbar;
+  const ProfileView({super.key, this.haveNavbar = false});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -23,6 +24,7 @@ class _ProfileViewState extends State<ProfileView> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: widget.haveNavbar ? buildAppBar(context) : null,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(

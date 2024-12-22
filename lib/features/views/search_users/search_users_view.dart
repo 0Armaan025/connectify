@@ -1,4 +1,5 @@
 import 'package:connectify/common/utils/utils.dart';
+import 'package:connectify/features/views/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -173,79 +174,94 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(30), // Cloud-like shape
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      margin: const EdgeInsets.only(bottom: 12),
-      child: InkWell(
-        onTap: () {
-          // Navigate to user profile
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 30, // Smaller avatar
-                backgroundImage: NetworkImage(user.profilePicUrl),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: () {
+        moveScreen(
+            context,
+            ProfileView(
+              haveNavbar: true,
+            ),
+            isPushReplacement: true);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        margin: const EdgeInsets.only(bottom: 12),
+        child: InkWell(
+          onTap: () {
+            moveScreen(
+                context,
+                ProfileView(
+                  haveNavbar: true,
+                ),
+                isPushReplacement: true);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 30, // Smaller avatar
+                  backgroundImage: NetworkImage(user.profilePicUrl),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.userName,
+                        style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        user.bio,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.montserrat(
+                          fontSize: 13,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      user.userName,
+                      '${user.followersCount}',
                       style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.deepPurpleAccent,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      user.bio,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      'Followers',
                       style: GoogleFonts.montserrat(
-                        fontSize: 13,
+                        fontSize: 11,
                         color: Colors.grey.shade600,
                       ),
                     ),
                   ],
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    '${user.followersCount}',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Followers',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 11,
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

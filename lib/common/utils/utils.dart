@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:connectify/features/views/notifications/notifications_view.dart';
 import 'package:connectify/features/views/post_upload/post_upload_view.dart';
 import 'package:connectify/features/views/search_users/search_users_view.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -116,7 +117,9 @@ buildAppBar(BuildContext context) {
         padding: const EdgeInsets.only(right: 3),
         child: IconButton(
           icon: const Icon(CupertinoIcons.bell),
-          onPressed: () {},
+          onPressed: () {
+            moveScreen(context, NotificationsPage());
+          },
         ),
       ),
     ],
