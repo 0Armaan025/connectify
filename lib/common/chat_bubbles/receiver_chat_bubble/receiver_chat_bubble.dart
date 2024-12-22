@@ -54,20 +54,21 @@ class _ReceiverChatBubbleState extends State<ReceiverChatBubble> {
     // TODO: implement initState
     super.initState();
 
-    if (widget.videoUrl != null) {
-      try {
-        _controller =
-            VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl!))
-              ..initialize().then((_) {
-                // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-                setState(() {});
-              }).catchError((error) {
+    try {
+      _controller =
+          VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl ?? ''))
+            ..initialize().then((_) {
+              // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+              setState(() {});
+            }).catchError((error) {
+              if (widget.videoUrl != null) {
                 showSnackBar(context, error.toString());
-              });
-      } catch (e) {
-        showSnackBar(context, e.toString());
-      }
+              }
+            });
+    } catch (e) {
+      showSnackBar(context, e.toString());
     }
+
     _controller.play();
   }
 

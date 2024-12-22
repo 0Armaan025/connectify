@@ -36,19 +36,20 @@ class _SenderChatBubbleState extends State<SenderChatBubble> {
   void initState() {
     super.initState();
 
-    if (widget.videoUrl != null) {
-      try {
-        _controller =
-            VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl!))
-              ..initialize().then((_) {
-                setState(() {});
-              }).catchError((error) {
-                showSnackBar(context, error.toString());
-              });
-      } catch (e) {
+    try {
+      _controller =
+          VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl ?? ''))
+            ..initialize().then((_) {
+              setState(() {});
+            }).catchError((error) {
+              showSnackBar(context, error.toString());
+            });
+    } catch (e) {
+      if (widget.videoUrl != null) {
         showSnackBar(context, e.toString());
       }
     }
+
     _controller.play();
   }
 
