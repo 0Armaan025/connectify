@@ -41,7 +41,10 @@ class NotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notifications"),
+        title: Text(
+          "Notifications",
+          style: GoogleFonts.poppins(),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -162,15 +165,12 @@ class NotificationTile extends StatelessWidget {
           style: const TextStyle(fontSize: 12, color: Colors.grey),
         ),
         trailing: isFollowing
-            ? ElevatedButton(
-                onPressed: () {
-                  // Action to view the new post
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  backgroundColor: Colors.lightBlueAccent.shade100,
+            ? Container(
+                padding: const EdgeInsets.all(12).copyWith(left: 16, right: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: Text(
                   "View",

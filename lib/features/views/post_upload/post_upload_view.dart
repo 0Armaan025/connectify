@@ -3,7 +3,9 @@ import 'dart:typed_data';
 
 import 'package:connectify/common/utils/utils.dart';
 import 'package:connectify/features/views/add_forum_post/add_forum_post_view.dart';
+import 'package:connectify/features/views/image_post/image_post_view.dart';
 import 'package:connectify/features/views/text_post/text_post_view.dart';
+import 'package:connectify/features/views/video_post/video_post_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -85,44 +87,30 @@ class PostUploadViewState extends State<PostUploadView> {
               ),
               const SizedBox(height: 16),
               ListTile(
-                leading: const Icon(Icons.camera_alt, color: Colors.deepPurple),
-                title: const Text('Camera'),
-                onTap: () async {
-                  Navigator.pop(context);
-
-                  mediaFile = await pickImage(context, ImageSource.camera);
-                  if (mediaFile == null) {
-                    showSnackBar(
-                        context, 'An error occurred. Please try again.');
-                  } else {
-                    final String extension =
-                        mediaFile!.path.split('.').last.toLowerCase();
-                    if (_isValidMediaFile(extension)) {
-                      setState(() {});
-                    } else {
-                      mediaFile = null;
-                      showSnackBar(context, 'Invalid file format');
-                    }
-                  }
-                },
-              ),
+                  leading:
+                      const Icon(Icons.camera_alt, color: Colors.deepPurple),
+                  title: const Text('Camera'),
+                  onTap: () async {
+                    moveScreen(context, const ImagePostScreen());
+                  }),
               ListTile(
                 leading: const Icon(Icons.photo, color: Colors.green),
-                title: const Text('Gallery'),
+                title: const Text('Video'),
                 onTap: () async {
                   Navigator.pop(context);
 
-                  mediaFile = await pickMedia(context);
-                  if (mediaFile != null) {
-                    final String extension =
-                        mediaFile!.path.split('.').last.toLowerCase();
-                    if (_isValidMediaFile(extension)) {
-                      setState(() {});
-                    } else {
-                      mediaFile = null;
-                      showSnackBar(context, 'Invalid file format');
-                    }
-                  }
+                  // mediaFile = await pickMedia(context);
+                  // if (mediaFile != null) {
+                  //   final String extension =
+                  //       mediaFile!.path.split('.').last.toLowerCase();
+                  //   if (_isValidMediaFile(extension)) {
+                  //     setState(() {});
+                  //   } else {
+                  //     mediaFile = null;
+                  //     showSnackBar(context, 'Invalid file format');
+                  //   }
+                  // }
+                  moveScreen(context, const VideoPostScreen());
                 },
               ),
               ListTile(

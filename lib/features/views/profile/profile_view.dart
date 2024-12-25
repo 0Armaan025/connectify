@@ -1,8 +1,10 @@
 import 'package:connectify/common/profile_post_tile/profile_post_tile.dart';
 import 'package:connectify/common/utils/utils.dart';
+import 'package:connectify/features/views/account_settings/account_settings_view.dart';
 import 'package:connectify/features/views/followers/followers_view.dart';
 import 'package:connectify/features/views/following/following_view.dart';
 import 'package:connectify/features/views/likes/likes_view.dart';
+import 'package:connectify/features/views/profile_set_up/profile_set_up_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,7 +85,14 @@ class _ProfileViewState extends State<ProfileView> {
                                   const SizedBox(
                                     width: 4,
                                   ),
-                                  Icon(Icons.edit, color: Colors.purple),
+                                  GestureDetector(
+                                    onTap: () {
+                                      moveScreen(
+                                          context, AccountSettingsView());
+                                    },
+                                    child: const Icon(Icons.edit,
+                                        color: Colors.purple),
+                                  ),
                                   const SizedBox(
                                     width: 4,
                                   ),

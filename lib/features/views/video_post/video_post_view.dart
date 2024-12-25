@@ -1,3 +1,5 @@
+import 'package:connectify/common/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:connectify/common/buttons/custom_button.dart';
@@ -71,75 +73,90 @@ class _VideoPostScreenState extends State<VideoPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Video Post'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedButton.icon(
-              onPressed: _pickVideo,
-              icon: const Icon(Icons.video_library),
-              label: const Text('Pick a Video'),
-            ),
-            const SizedBox(height: 20),
-            if (_selectedVideo != null) ...[
-              if (_videoController != null &&
-                  _videoController!.value.isInitialized)
-                AspectRatio(
-                  aspectRatio: _videoController!.value.aspectRatio,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      VideoPlayer(_videoController!),
-                      VideoProgressIndicator(_videoController!,
-                          allowScrubbing: true),
-                      Positioned(
-                        bottom: 10,
-                        right: 10,
-                        child: IconButton(
-                          icon: Icon(
-                            _isMuted ? Icons.volume_off : Icons.volume_up,
-                            color: Colors.white,
-                          ),
-                          onPressed: _toggleMute,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: const CircularProgressIndicator()),
-            ] else
-              const Text(
-                'No video selected',
-                style: TextStyle(color: Colors.grey),
+      appBar: buildAppBar(context),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ElevatedButton.icon(
+                onPressed: _pickVideo,
+                icon: const Icon(Icons.video_library),
+                label: const Text('Pick a Video'),
               ),
-            const SizedBox(height: 20),
-            TextFormField(
-              maxLines: 3,
-              controller: _descriptionController,
-              maxLength: 80,
-              decoration: InputDecoration(
-                hintText: 'Add a description (max 80 words)',
-                hintStyle: const TextStyle(color: Colors.grey),
-                filled: true,
-                fillColor: Colors.grey[200],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+              const SizedBox(height: 20),
+              if (_selectedVideo != null) ...[
+                if (_videoController != null &&
+                    _videoController!.value.isInitialized)
+                  AspectRatio(
+                    aspectRatio: _videoController!.value.aspectRatio,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        VideoPlayer(_videoController!),
+                        VideoProgressIndicator(_videoController!,
+                            allowScrubbing: true),
+                        Positioned(
+                          bottom: 10,
+                          right: 10,
+                          child: IconButton(
+                            icon: Icon(
+                              _isMuted ? Icons.volume_off : Icons.volume_up,
+                              color: Colors.white,
+                            ),
+                            onPressed: _toggleMute,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            _videoController!.value.isPlaying
+                                ? await _videoController!.pause()
+                                : await _videoController!.play();
+                            setState(() {});
+                          },
+                          child: Positioned(
+                            left: MediaQuery.of(context).size.width * 0.3,
+                            top: MediaQuery.of(context).size.height * 0.25,
+                            child: _videoController!.value.isPlaying
+                                ? Icon(Icons.play_arrow, size: 100)
+                                : Icon(Icons.pause_circle, size: 100),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: const CircularProgressIndicator()),
+              ] else
+                const Text(
+                  'No video selected',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              const SizedBox(height: 20),
+              TextFormField(
+                maxLines: 3,
+                controller: _descriptionController,
+                maxLength: 80,
+                decoration: InputDecoration(
+                  hintText: 'Add a description (max 80 words)',
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            CustomButtonWidget(
-              text: "Post! yay",
-            ),
-          ],
+              const SizedBox(height: 20),
+              CustomButtonWidget(
+                text: "Post! yay",
+              ),
+            ],
+          ),
         ),
       ),
     );
