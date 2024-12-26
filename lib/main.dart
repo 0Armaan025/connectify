@@ -1,8 +1,15 @@
+import 'package:connectify/features/views/authentication/sign-up/sign_up_page.dart';
 import 'package:connectify/features/views/home/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart' as models;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Client client = Client()
+      .setEndpoint("https://cloud.appwrite.io/v1")
+      .setProject("connectify-00d");
+  Account account = Account(client);
   runApp(const MyApp());
 }
 
@@ -16,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomePage(),
+        '/': (context) => const SignUpPage(),
         '/post': (context) => const PostPage(),
       },
     );

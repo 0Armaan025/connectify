@@ -1,3 +1,4 @@
+import 'package:connectify/features/repositories/auth_repository.dart';
 import 'package:connectify/pallete/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +12,24 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool isSignUp = true; // Tracks whether the user is in Sign Up mode.
+  bool isSignUp = true;
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passController.dispose();
+  }
+
+  void signUpWithGoogle(BuildContext context) async {
+    await AuthRepository().registerUserWithGoogle(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +157,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     if (isSignUp)
-                      
                       Container(
                         width: double.infinity,
                         height: size.height * 0.08,
@@ -159,6 +176,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             const SizedBox(width: 20),
                             Expanded(
                               child: TextField(
+                                controller: _nameController,
                                 style: GoogleFonts.poppins(
                                   color: Colors.white,
                                 ),
@@ -194,6 +212,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           const SizedBox(width: 20),
                           Expanded(
                             child: TextField(
+                              controller: _emailController,
                               style: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
@@ -229,6 +248,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           const SizedBox(width: 20),
                           Expanded(
                             child: TextField(
+                              controller: _passController,
                               style: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
@@ -280,13 +300,14 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 10,
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        signUpWithGoogle(context);
+                      },
                       child: Center(
                         child: Container(
                           width: double.infinity,
                           height: size.height * 0.08,
                           alignment: Alignment.center,
-                          
                           margin: const EdgeInsets.symmetric(horizontal: 25),
                           decoration: BoxDecoration(
                             // color: HexColor("#45464f"),

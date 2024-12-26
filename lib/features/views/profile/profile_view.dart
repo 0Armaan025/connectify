@@ -201,16 +201,11 @@ class _ProfileViewState extends State<ProfileView> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            moveScreen(context, LikesView());
-                          },
-                          child: Text(
-                            "Likes",
-                            style: GoogleFonts.poppins(
-                              color: Colors.blue,
-                              fontSize: 14,
-                            ),
+                        Text(
+                          "Likes",
+                          style: GoogleFonts.poppins(
+                            color: Colors.blue,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -228,6 +223,11 @@ class _ProfileViewState extends State<ProfileView> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: const PostWidget(
+                          likesCount: 30,
+                          commentsCount: 30,
+                          uploadDate: "12th Dec, 2024",
+                          uploadTime: "3:00 AM IST",
+
                           profilePicUrl:
                               'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
                           userName: 'John Doe',
@@ -240,6 +240,10 @@ class _ProfileViewState extends State<ProfileView> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: const PostWidget(
+                          likesCount: 30,
+                          commentsCount: 30,
+                          uploadDate: "12th Dec, 2024",
+                          uploadTime: "3:00 AM IST",
                           profilePicUrl:
                               'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
                           userName: 'John Doe',
