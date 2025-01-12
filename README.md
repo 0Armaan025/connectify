@@ -1,5 +1,7 @@
 # connectify
 
+## updated url: https://github.com/0Armaan025/connectify-fix-updated
+
 A new Flutter project.
 
 ## Getting Started
